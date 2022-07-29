@@ -1,0 +1,12 @@
+.lapa {
+    height: 48px;
+    width: 48px;
+    padding-left: 0.5rem;
+}
+
+.custom-color {
+    background-image: linear-gradient(to bottom right, #ed6436 30%, #ffffff 70%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
