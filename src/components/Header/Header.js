@@ -50,11 +50,11 @@ export const Header = () => {
                             Contact
                         </Link>
                     </div>
-                    <Link to="/" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
+                    <Link to="/login" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
                         Login
                     </Link>
                     
-                    <Link to="/" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
+                    <Link to="/register" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
                         Register
                     </Link>
                     <img src="img/lapa-2.png" alt="" className={styles['lapa']} />
