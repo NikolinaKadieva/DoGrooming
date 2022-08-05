@@ -19,8 +19,8 @@ export const Footer = () => {
                                 <p><i className="fa fa-phone-alt mr-2"></i>089 278 8989</p>
                                 <p><i className="fa fa-envelope mr-2"></i>dogroomingbga@gmail.com</p>
                                 <div className="d-flex justify-content-center mt-2">
-                                    <Link className="btn btn-outline-light rounded-circle text-center mr-2 px-0" style={{ width: "36px", height: "36px" }} to="https://www.facebook.com/DoGroomingB.G.A"><i className="fab fa-facebook-f"></i></Link>
-                                    <Link className="btn btn-outline-light rounded-circle text-center mr-2 px-0" style={{ width: "36px", height: "36px" }} to="https://www.instagram.com/dogrooming.b.g.a/"><i className="fab fa-instagram"></i></Link>
+                                    <a className="btn btn-outline-light rounded-circle text-center mr-2 px-0" style={{ width: "36px", height: "36px" }} target="_blank" rel="noreferrer" href="https://www.facebook.com/DoGroomingB.G.A" title="facebook"><i className="fab fa-facebook-f"></i></a>
+                                    <a className="btn btn-outline-light rounded-circle text-center mr-2 px-0" style={{ width: "36px", height: "36px" }} target="_blank" rel="noreferrer" href="https://www.instagram.com/dogrooming.b.g.a/" title="instagram"><i className="fab fa-instagram"></i></a>
                                 </div>
                             </div>
 
@@ -33,7 +33,7 @@ export const Footer = () => {
                     <div className="col-md-6 text-center text-md-center mb-3 mb-md-0">
                         <p className="m-0 text-white">
                             &copy; <Link className="text-white font-weight-bold" to="/">DoGrooming</Link>. All Rights Reserved. Designed by
-                            <Link className="text-white font-weight-bold" to="https://github.com/NikolinaKadieva"> NiK&reg;L</Link>
+                            <a className="text-white font-weight-bold" target="_blank" rel="noreferrer" href="https://github.com/NikolinaKadieva"> NiK&reg;L</a>
                         </p>
                     </div>
                 </div>

@@ -1,7 +1,41 @@
-import './Register.css';
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const Register = () => {
-  
+import * as authService from "../../services/authService";
+import { AuthContext } from "../../contexts/AuthContext";
+
+const Register = () => {
+  const { userLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+
+    const firstName = formData.get('firstName');
+    const lastName = formData.get('lastName');
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const confirmPassword = formData.get('rePassword');
+
+    if(password !== confirmPassword) {
+      return;
+    }
+
+    console.log(email);
+    console.log(password);
+    console.log(confirmPassword);
+    console.log(firstName);
+    console.log(lastName);
+
+    authService.register(email, password, firstName, lastName)
+      .then(authData => {
+        userLogin(authData);
+        navigate('/');
+      });
+  }
+
   return (
     <div className='container register-container wow fadeInLeft'>
       <div className='row d-flex justify-content-center align-items-center h-100'>
@@ -16,7 +50,8 @@ export const Register = () => {
 
                   <form
                     method='POST'
-                    className='mx-1 mx-md-4'>
+                    className='mx-1 mx-md-4'
+                    onSubmit={onSubmit}>
                     <div className='d-flex flex-row align-items-center mb-4'>
                       <i className='fas fa-user fa-lg me-3 fa-fw'></i>
                       <div className='form-outline flex-fill mb-0'>
@@ -27,9 +62,9 @@ export const Register = () => {
                           type='text'
                           id='firstName'
                           name='firstName'
-                         
+
                         />
-            
+
                       </div>
                     </div>
                     <div className='d-flex flex-row align-items-center mb-4'>
@@ -99,7 +134,7 @@ export const Register = () => {
                       <label className='form-check-label' htmlFor='terms'>
                         I agree all statements in&nbsp;
                       </label>
-                        Terms of service
+                      Terms of service
                     </div>
 
                     <div className='d-flex justify-content-center mx-4 mb-3 mb-lg-4'>
@@ -124,3 +159,5 @@ export const Register = () => {
     </div>
   );
 }
+
+export default Register;

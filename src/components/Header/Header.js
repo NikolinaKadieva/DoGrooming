@@ -1,7 +1,12 @@
-import { Link } from "react-router-dom";
 import styles from "./Header.module.css";
 
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
+
 export const Header = () => {
+    const { user } = useContext(AuthContext);
+    console.log(user);
     return (
         <div className="container-fluid p-0">
             <nav className="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-lg-5">
@@ -15,6 +20,7 @@ export const Header = () => {
                     className="navbar-toggler"
                     data-toggle="collapse"
                     data-target="#navbarCollapse"
+                    title="home"
                 >
                     <span className="navbar-toggler-icon" />
                 </button>
@@ -50,13 +56,27 @@ export const Header = () => {
                             Contact
                         </Link>
                     </div>
-                    <Link to="/login" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
-                        Login
-                    </Link>
-                    
-                    <Link to="/register" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
-                        Register
-                    </Link>
+                    {user.email && <span>{user.email}</span>}
+                    {user.email
+                        ?
+                        <>
+                            <Link to="/logout" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
+                                Logout
+                            </Link>
+                            <Link to="/create" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
+                                Create Post
+                            </Link>
+                        </>
+                        :
+                        <>
+                            <Link to="/login" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
+                                Login
+                            </Link>
+                            <Link to="/register" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
+                                Register
+                            </Link>
+                        </>
+                    }
                     <img src="img/lapa-2.png" alt="" className={styles['lapa']} />
                 </div>
             </nav>
