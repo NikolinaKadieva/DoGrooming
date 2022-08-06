@@ -13,11 +13,13 @@ export const logout = async (accessToken) => {
             }
         });
 
+        // localStorage.clear();
+
         return response;
     } catch (error) {
         console.log(error);
     }
 };
 
-export const register = (email, password) => 
-    request.post(`${baseUrl}/register`, {email, password});
+export const register = (email, password, firstName, lastName) => 
+    request.post(`${baseUrl}/register`, {email, password, firstName, lastName});

@@ -14,8 +14,10 @@ import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
 import Register from "./components/Register/Register";
 
+import { useLocalStorage } from "./hooks/useLocalStorage"
+
 function App() {
-    const [auth, setAuth] = useState({});
+    const [auth, setAuth] = useLocalStorage('auth', {});
 
     const userLogin = (authData) => {
         setAuth(authData);
