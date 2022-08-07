@@ -1,8 +1,8 @@
 import { useState, useEffect, lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import { AuthContext } from "./contexts/AuthContext";
-
+import { PostContext } from "./contexts/PostContext";
 
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
@@ -13,10 +13,13 @@ import { Blog } from "./components/Blog/Blog";
 import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
 import Register from "./components/Register/Register";
+import { UserProfile } from "./components/UserProfile/UserProfile";
 
-import { useLocalStorage } from "./hooks/useLocalStorage"
+import { useLocalStorage } from "./hooks/useLocalStorage";
+import CreatePost from "./components/CreatePost/CreatePost";
 
 function App() {
+    const [posts, setPosts] = useState([]);
     const [auth, setAuth] = useLocalStorage('auth', {});
 
     const userLogin = (authData) => {
@@ -27,19 +30,31 @@ function App() {
         setAuth({});
     };
 
+    const postAdd = (postData) => {
+        setPosts(state => [
+            ...state,
+            postData
+        ]);
+
+        // Navigate('/catalog');
+    }
+
     return (
-        <AuthContext.Provider value={{user: auth, userLogin, userLogout}}>
+        <AuthContext.Provider value={{ user: auth, userLogin, userLogout }}>
             <div className="App">
                 <Header></Header>
-
-                <Routes>
-                    <Route path="/" element={<Home></Home>}></Route>
-                    <Route path="/blog" element={<Blog></Blog>}></Route>
-                    <Route path="/register" element={<Register></Register>}></Route>
-                    <Route path="/login" element={<Login></Login>}></Route>
-                    <Route path="/logout" element={<Logout />}></Route>
-                    <Route path="/contact" element={<Contact></Contact>}></Route>
-                </Routes>
+                <PostContext.Provider value={{posts, postAdd}}>
+                    <Routes>
+                        <Route path="/" element={<Home></Home>}></Route>
+                        <Route path="/blog" element={<Blog></Blog>}></Route>
+                        <Route path="/register" element={<Register></Register>}></Route>
+                        <Route path="/login" element={<Login></Login>}></Route>
+                        <Route path="/logout" element={<Logout />}></Route>
+                        <Route path="/contact" element={<Contact></Contact>}></Route>
+                        <Route path="/create" element={<CreatePost></CreatePost>}></Route>
+                        <Route path='/profile' element={<UserProfile />} />
+                    </Routes>
+                </PostContext.Provider>
                 <Footer></Footer>
 
             </div>

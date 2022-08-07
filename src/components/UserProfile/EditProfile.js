@@ -1,0 +1,177 @@
+import './UserProfile.css';
+
+import { useState, useContext, useEffect, useRef } from 'react';
+// import { AuthContext } from "../../contexts/AuthContext";
+
+import * as userService from '../../services/userService';
+
+import { Link } from 'react-router-dom';
+import Modal from '../Modal/Modal';
+
+export const EditProfile = ({user, setIsBeingEdited, userInfo}) => {
+  // const { user } = useContext(AuthContext);
+  const submitEl = useRef(null);
+  const [submit, setSubmit] = useState(false);
+  const [modal, setModal] = useState(false);
+console.log(userInfo);
+console.log(user);
+  useEffect(() => {
+    if (submit) {
+      submitEl.current.click();
+    }
+  }, [submit]);
+  
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    // if (isValid.valid) {
+      let { firstName, lastName } =
+        Object.fromEntries(formData);
+
+      userService
+        .editProfile({
+          firstName,
+          lastName,
+          id: user._id,
+        })
+        .then((res) => {
+          // showNotification(
+          //   'Account details edited succeffully!',
+          //   types.success
+          // );
+          setIsBeingEdited((oldIsBeingEdit) => !oldIsBeingEdit);
+        })
+        .catch((error) => {
+          setIsBeingEdited((oldIsBeingEdit) => !oldIsBeingEdit);
+
+          // return showNotification(error.message, types.error);
+        });
+    // } else {
+    //   return showNotification('Please check your input!', types.error);
+    // }
+  };
+
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  const cancelHandler = () => {
+    setIsBeingEdited((oldIsBeingEdit) => !oldIsBeingEdit);
+  };
+
+  return (
+    <div className='col-lg-8'>
+      <div className='card mb-4'>
+        <form method='POST' 
+        onSubmit={submitHandler}
+        >
+          <div className='card-body'>
+            <div className='row'>
+              <div className='col-sm-3'>
+                <p className='mb-0'>First Name</p>
+              </div>
+              <div className='col-sm-9'>
+                <input
+                  // onChange={onFirstNameChangeHandler}
+                  type='text'
+                  id='firstName'
+                  name='firstName'
+                  className='mb-0 edit-profile-input'
+                  // defaultValue={`${userInfo.firstName}`}
+                  autoFocus
+                />
+                {/* {isValid.errors['firstName'] && (
+                  <p className='error-message' style={{ color: 'red' }}>
+                    {isValid.errors['firstName']}
+                  </p>
+                )} */}
+              </div>
+            </div>
+            <hr />
+
+            <div className='row'>
+              <div className='col-sm-3'>
+                <p className='mb-0'>Last Name</p>
+              </div>
+              <div className='col-sm-9'>
+                <input
+                  // onChange={onLastNameChangeHandler}
+                  type='text'
+                  id='lastName'
+                  name='lastName'
+                  className='mb-0 edit-profile-input'
+                  // defaultValue={userInfo.lastName}
+                />
+                {/* {isValid.errors['lastName'] && (
+                  <p className='error-message' style={{ color: 'red' }}>
+                    {isValid.errors['lastName']}
+                  </p>
+                )} */}
+              </div>
+            </div>
+            <hr />
+            <div className='row'>
+              <div className='col-sm-3'>
+                <p className='mb-0'>Aritcles posted</p>
+              </div>
+              <div className='col-sm-9'>
+                {/* <p className='mb-0 '>{userInfo.posts?.length}</p> */}
+              </div>
+            </div>
+            <hr />
+            <div className='row'>
+              <div className='col-sm-3'>
+                <p className='mb-0'>Top Post</p>
+              </div>
+              <div className='col-sm-9'>
+                <p className='mb-0'>
+                  {/* {topPost ? (
+                    <Link to={`/blog/${topPost._id}`}>{topPost.title}</Link>
+                  ) : (
+                    <span>You have no posts yet :(</span>
+                  )} */}
+                </p>
+              </div>
+            </div>
+            <hr />
+
+            <div className='row justify-content-md-center'>
+              <div className='col-sm-3 profile-control'>
+                <button
+                  style={{ padding: '8px 20px' }}
+                  type='button'
+                  onClick={cancelHandler}
+                  className='btn btn-outline-danger ms-1 '>
+                  Cancel
+                </button>
+              </div>
+              <div className='col-sm-3'>
+                <button
+                  type='button'
+                  onClick={toggleModal}
+                  style={{ padding: '8px 20px' }}
+                  className='btn btn-outline-primary ms-1'>
+                  Save Changes
+                </button>
+                <button
+                  ref={submitEl}
+                  type='submit'
+                  style={{ display: 'none' }}
+                  aria-hidden='true'></button>
+                <Modal
+                  show={modal}
+                  close={toggleModal}
+                  title='Are you sure you want to save these changes?'
+                  message='Save changes message'
+                  buttonText='Save Changes'
+                  type='success'
+                  callback={() => setSubmit((oldSubmit) => !oldSubmit)}
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

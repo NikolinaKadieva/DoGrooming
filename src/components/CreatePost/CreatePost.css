@@ -1,0 +1,10 @@
+.tox {
+  margin-bottom: 20px;
+}
+
+.label {
+  font-size: large;
+  font-style: italic;
+  font-weight: bold;
+  color:salmon;
+}

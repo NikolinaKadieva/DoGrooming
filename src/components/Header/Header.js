@@ -66,6 +66,9 @@ export const Header = () => {
                             <Link to="/create" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
                                 Create Post
                             </Link>
+                            <Link to="/profile" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
+                                Profile
+                            </Link>
                         </>
                         :
                         <>

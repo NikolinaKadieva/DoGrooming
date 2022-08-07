@@ -1,20 +1,29 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as authService from "../../services/authService";
 import { AuthContext } from "../../contexts/AuthContext";
 
+import Modal from '../Modal/Modal';
+import TermsOfService from './TermsOfService';
+
 const Register = () => {
     const { userLogin } = useContext(AuthContext);
     const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
+
+
+    const toggleModal = () => {
+        setModal(!modal);
+      };
 
     const onSubmit = (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.target);
 
-        const firstName = formData.get('firstName');
-        const lastName = formData.get('lastName');
+        // const firstName = formData.get('firstName');
+        // const lastName = formData.get('lastName');
         const email = formData.get('email');
         const password = formData.get('password');
         const confirmPassword = formData.get('rePassword');
@@ -26,10 +35,9 @@ const Register = () => {
         console.log(email);
         console.log(password);
         console.log(confirmPassword);
-        console.log(firstName);
-        console.log(lastName);
 
-        authService.register(email, password, firstName, lastName)
+
+        authService.register(email, password)
             .then(authData => {
                 userLogin(authData);
                 navigate('/');
@@ -52,7 +60,7 @@ const Register = () => {
                                         method='POST'
                                         className='mx-1 mx-md-4'
                                         onSubmit={onSubmit}>
-                                        <div className='d-flex flex-row align-items-center mb-4'>
+                                        {/* <div className='d-flex flex-row align-items-center mb-4'>
                                             <i className='fas fa-user fa-lg me-3 fa-fw'></i>
                                             <div className='form-outline flex-fill mb-0'>
                                                 <label className='form-label ml-3' htmlFor='firstName'>
@@ -66,8 +74,8 @@ const Register = () => {
                                                 />
 
                                             </div>
-                                        </div>
-                                        <div className='d-flex flex-row align-items-center mb-4'>
+                                        </div> */}
+                                        {/* <div className='d-flex flex-row align-items-center mb-4'>
                                             <i className='fas fa-user fa-lg me-3 fa-fw'></i>
                                             <div className='form-outline flex-fill mb-0'>
                                                 <label className='form-label ml-3' htmlFor='lastName'>
@@ -79,7 +87,7 @@ const Register = () => {
                                                     name='lastName'
                                                 />
                                             </div>
-                                        </div>
+                                        </div> */}
 
                                         <div className='d-flex flex-row align-items-center mb-4'>
                                             <i className='fas fa-envelope fa-lg me-3 fa-fw'></i>
@@ -134,7 +142,18 @@ const Register = () => {
                                             <label className='form-check-label' htmlFor='terms'>
                                                 I agree all statements in&nbsp;
                                             </label>
-                                            Terms of service
+                                            <span onClick={toggleModal} className='terms-trigger'>
+                                                Terms of service
+                                            </span>
+                                            <Modal
+                                                show={modal}
+                                                close={toggleModal}
+                                                title='Terms of Service'
+                                                buttonText='Test'
+                                                type='info'
+                                                footerless={true}>
+                                                <TermsOfService />
+                                            </Modal>
                                         </div>
 
                                         <div className='d-flex justify-content-center mx-4 mb-3 mb-lg-4'>
