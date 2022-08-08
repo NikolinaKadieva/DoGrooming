@@ -23,7 +23,7 @@ export const PostCard = ({
                     <p>
                         {post.content}
                     </p>
-                    <Link className="font-weight-bold" to="#">
+                    <Link className="font-weight-bold" to={`/catalog/${post._id}`}>
                         Read More
                     </Link>
                 </div>

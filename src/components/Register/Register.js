@@ -1,3 +1,5 @@
+import styles from "./Register.module.css"
+
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -142,7 +144,7 @@ const Register = () => {
                                             <label className='form-check-label' htmlFor='terms'>
                                                 I agree all statements in&nbsp;
                                             </label>
-                                            <span onClick={toggleModal} className='terms-trigger'>
+                                            <span onClick={toggleModal} className={styles['terms-trigger']}>
                                                 Terms of service
                                             </span>
                                             <Modal

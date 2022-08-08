@@ -44,7 +44,7 @@ export const Header = () => {
                                 Pages
                             </Link>
                             <div className="dropdown-menu rounded-0 m-0">
-                                <Link to="/" className="dropdown-item">
+                                <Link to="/catalog" className="dropdown-item">
                                     Blog Grid
                                 </Link>
                                 <Link to="/" className="dropdown-item">

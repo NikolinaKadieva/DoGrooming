@@ -69,9 +69,9 @@ function Login () {
                                     Remember me
                                 </label>
                             </div>
-                            <a href='#!' className='text-body'>
+                            {/* <a href='#!' className='text-body'>
                                 Forgot password?
-                            </a>
+                            </a> */}
                         </div>
 
                         <div className='text-center text-lg-start mt-4 pt-2'>
