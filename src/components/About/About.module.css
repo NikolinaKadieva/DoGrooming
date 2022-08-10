@@ -1,0 +1,37 @@
+.about {
+    margin-top: 200rem;
+    background-image: url("./about.jpg");
+    border: 3px solid black;
+}
+
+.container {
+    background-color: rgba(255,255,255,0);
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    border-width: 0px 0px 0px 0px;
+    border-color: #eae9e9;
+    border-style: solid;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.content {
+    width: 80%;
+    width: calc(80% - ( ( 4% ) * 0.8 ) );
+    margin-top: 0px;
+    margin-bottom: 0px;
+    box-sizing: border-box;
+    padding-top: 100px;
+    margin: 500rem;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 20px;
+}

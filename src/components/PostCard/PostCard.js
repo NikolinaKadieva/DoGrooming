@@ -17,14 +17,18 @@ export const PostCard = ({
                             <i className="fa fa-folder text-muted" /> {post.category}
                         </small>
                         <small className="mr-2">
-                            <i className="fa fa-comments text-muted" /> Comments
+                            <i className="fa fa-comments text-muted" /> {post.comments ? post.comments.length : -''}
                         </small>
                     </div>
                     <p>
-                        {post.content}
+                        {post.content.substring(0, 100)}...
                     </p>
                     <Link className="font-weight-bold" to={`/catalog/${post._id}`}>
                         Read More
+                    </Link>
+
+                    <Link className="font-weight-bold" to={`/posts/${post._id}/edit`}>
+                        Edit
                     </Link>
                 </div>
             </div>

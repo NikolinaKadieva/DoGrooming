@@ -1,116 +1,126 @@
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { PostContext } from "../../contexts/PostContext";
 
-const Details = ({posts}) => {
-    const { postId} = useParams();
+import * as postService from "../../services/postService";
+import * as commentService from "../../services/commentService";
 
-    const post = posts.find(x => x._id === postId);
-    return(
+import styles from "./Details.module.css";
 
-<section className="py-5">
-  <div className="container">
-    <h1 style={{ margin: "2%", textAlign: "center" }}>{post.title}</h1>
-    <div>
-      <div className="form-group text-center">
-        <img
-          src={post.imageUrl}
-          width={600}
-          height={300}
-          className="img-fluid"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="typeOfConstruction">Type of construction</label>
-        <input
-          type="text"
-          readOnly=""
-          className="form-control"
-          id="typeOfConstruction"
-          name="TypeOfConstruction"
-          defaultValue="@Model.TypeOfConstruction"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="categoryName">Category</label>
-        <input
-          type="text"
-          readOnly=""
-          className="form-control"
-          id="categoryName"
-          defaultValue={post.category}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="description">Description</label>
-        <input
-          type="text"
-          readOnly=""
-          className="form-control"
-          id="description"
-          name="Description"
-          defaultValue={post.content}
-        />
-      </div>
-    </div>
-  </div>
-</section>
+const Details = () => {
+    const { addComment, fetchPostDetails, selectPost } = useContext(PostContext);
+    const { postId } = useParams();
+
+    const currentPost = selectPost(postId);
+    // const [error, setError] = useState({
+    //     username: '',
+    //     comment: ''
+    // });
+
+    useEffect(() => {
+        (async () => {
+            const postDetails = await postService.getOne(postId);
+            const postComments = await commentService.getByPostId(postId);
+
+            fetchPostDetails(postId, {...postDetails, comments: postComments.map(x => `${x.user.email}: ${x.text}`)});
+        })();
+    }, [])
+
+    const addCommentHandler = (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+
+        const comment = formData.get('comment');
+        console.log(comment);
+        console.log(postId);
+
+        commentService.create(postId, comment)
+            .then(result => {
+                addComment(postId, comment);
+            });
+
+    }
 
 
-    //     <>
-    //     <div className='header'>
-    //       <div className='post-thumb'>
-    //         <img src={post.imageUrl} alt='' />
-    //       </div>
-    //       <div className='meta-header'>
-    //         {/* <div className='post-author'>
-    //           <div className='avatar'>
-    //             <img src={post.author?.avatar} alt='' />
-    //           </div>
-    //           <Link to={`/public-profile/${post.author?._id}`}>
-    //             {post.author?.firstName} {post.author?.lastName}
-    //           </Link>
-    //         </div> */}
-    //         {/* {user.userId === post._ownerId ? (
-    //           <div className='d-flex edit-delete'>
-    //             <button
-    //               onClick={editHandler}
-    //               type='button'
-    //               className='mr-2 btn btn-outline-primary ms-1 '>
-    //               Edit
-    //             </button>
-    //             <button
-    //               onClick={toggleDeleteModal}
-    //               type='button'
-    //               className='btn btn-outline-danger ms-1 '>
-    //               Delete
-    //             </button>
-    //           </div>
-    //         ) : null} */}
-    //       </div>
-    //     </div>
-    //     <h1 className='post-title'>
-    //         {post.title}
-    //     </h1>
+    // const validateUsername = (e) => {
+    //     const username = e.target.value;
+    //     let errorMessage = '';
 
-    //     <div className='post-meta'>
-    //       <div className='post-date'>
-    //         <span className='icon'>
-    //           <span className='mai-time-outline'></span>
-    //         </span>{' '}
-    //         {/* {post.dateOfCreation.substring(0, 10)} */}
-    //       </div>
-    //       <div className='post-comment-count ml-2'>
-    //         <span className='icon'>
-    //           <span className='mai-chatbubbles-outline'></span>
-    //         </span>{' '}
-    //         {/* {post.comments.length} Comments */}
-    //       </div>
-    //     </div>
-    //     <div className='post-content'>
-    //         {post.content}
-    //         {/* {parse(post.description)} */}
-    //         </div>
-    //   </>
-    );   
+    //     if (username.length < 4) {
+    //         errorMessage = 'Username must be longer than 4 characters.';
+    //     } else if (username.length > 10) {
+    //         errorMessage = 'Username must be shorter than 10 characters.';
+    //     }
+
+    //     setError(state => ({
+    //         ...state,
+    //         [e.target.name]: errorMessage
+    //     }));
+    // }
+
+    return (
+
+        <section className={styles['postDetails']}>
+            <h1>Post Details</h1>
+            <div className={styles['info']}>
+                <div className={styles['header']}>
+                    <img className={styles['postImg']} src={currentPost.imageUrl} alt={currentPost.title} />
+                    <h1>{currentPost.title}</h1>
+                    <p className={styles['type']}>{currentPost.category}</p>
+                </div>
+                <p className={styles['text']}>
+                    {currentPost.content}
+                </p>
+
+                <div className={styles['detailsComments']}>
+                    <h2>Коментари:</h2>
+                    <ul>
+                        {currentPost.comments?.map(x =>
+                            <li key={x} className={styles['comment']}>
+                                <p>{x}</p>
+                            </li>
+                        )}
+                    </ul>
+                    {!currentPost.comments &&
+                        <p className="no-comment">No comments.</p>
+                    }
+                </div>
+              
+            </div>
+
+            <article className={styles['create-comment']}>
+                <label>Add new comment:</label>
+                <form className="form" onSubmit={addCommentHandler}>
+                    {/* <input
+                        type="text"
+                        name="username"
+                        placeholder="JD"
+                        onChange={onChange}
+                        onBlur={validateUsername}
+                        value={comment.username}
+                    />
+
+                    {error.username &&
+                        <div style={{ color: 'red' }}>{error.username}</div>
+                    } */}
+
+                    <textarea
+                        className={styles['textarea-comment']}
+                        name="comment"
+                        placeholder="Comment......"
+                    />
+
+                    <input
+                        className={styles['submitBtn']}
+                        type="submit"
+                        value="Add Comment"
+                    />
+                </form>
+            </article>
+        </section>
+
+    );
 };
 
 export default Details;

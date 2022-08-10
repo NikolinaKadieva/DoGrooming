@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import * as userService from "../../services/userService";
 
 import Modal from "../Modal/Modal";
-import { EditProfile } from './EditProfile';
+import { EditProfile } from './EditPost';
 
 import { AuthContext } from "../../contexts/AuthContext";
 import * as authService from "../../services/authService";
@@ -129,9 +129,9 @@ export const UserProfile = () => {
         } else {
             return (
                 <EditProfile
-                    user={user}
-                    setIsBeingEdited={editHandler}
-                    userInfo={userInfo}
+                    // user={user}
+                    // setIsBeingEdited={editHandler}
+                    // userInfo={userInfo}
                     // topPost={topPost}
                 />
             );

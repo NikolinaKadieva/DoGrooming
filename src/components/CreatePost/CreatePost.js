@@ -1,4 +1,4 @@
-import './CreatePost.css';
+import styles from './CreatePost.module.css';
 import { useContext } from 'react';
 
 import { PostContext } from '../../contexts/PostContext';
@@ -26,7 +26,7 @@ const CreatePost = () => {
                 <h2 className='header-margin text-center text-primary'>Създай статия</h2>
                 <form method='POST' onSubmit={onSubmit}>
                     <div className='form-group'>
-                        <label className='label' htmlFor='title'>Заглавие</ label>
+                        <label className={styles['label']} htmlFor='title'>Заглавие</ label>
                         <input
                             className='form-control'
                             name='title'
@@ -34,7 +34,7 @@ const CreatePost = () => {
                         />
                     </div>
                     <div className='form-group'>
-                        <label className='label' htmlFor='category'>Категория</ label>
+                        <label className={styles['label']} htmlFor='category'>Категория</ label>
                         <input
                             className='form-control'
                             name='category'
@@ -42,7 +42,7 @@ const CreatePost = () => {
                         />
                     </div>
                     <div className='form-group'>
-                        <label className='label' htmlFor='imageUrl'>Снимка</label>
+                        <label className={styles['label']} htmlFor='imageUrl'>Снимка</label>
                         <input
                             name='imageUrl'
                             className='form-control'
@@ -50,7 +50,7 @@ const CreatePost = () => {
                         />
                     </div>
                     <div className='form-group'>
-                        <label className='label' htmlFor='content'>Съдържание</label>
+                        <label className={styles['label']} htmlFor='content'>Съдържание</label>
                         <textarea
                             name='content'
                             rows={4}

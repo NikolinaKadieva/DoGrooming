@@ -1,8 +1,11 @@
 import styles from './Home.module.css';
 
 import { PostCard } from "../PostCard/PostCard";
+import { useContext } from 'react';
+import { PostContext } from '../../contexts/PostContext';
 
-export const Home = ({posts}) => {
+export const Home = () => {
+    const {posts} = useContext(PostContext);
     return (
         <div className="container pt-5">
             <div className="d-flex flex-column text-center mb-5">

@@ -1,13 +1,11 @@
-import "./Contact.css";
-
 export const Contact = () => {
     return (
         <div className="container-fluid pt-5">
 
             <div className="d-flex flex-column text-center mb-5 pt-5">
-                <h4 className="text-secondary mb-3">Contact Us</h4>
+                <h4 className="text-secondary mb-3">Форма за контакти</h4>
                 <h1 className="display-4 m-0">
-                    Contact For <span className="text-primary">Any Query</span>
+                    Свържете се с нас <span className="text-primary">за всякакви въпроси</span>
                 </h1>
             </div>
             <div className="row justify-content-center">
@@ -17,7 +15,7 @@ export const Contact = () => {
                         <form name="sentMessage" id="contactForm" noValidate="novalidate">
                             <div className="control-group">
                                 <input
-                                    type="text"
+                                    // type="text"
                                     className="form-control p-4"
                                     id="name"
                                     placeholder="Your Name"
@@ -39,7 +37,7 @@ export const Contact = () => {
                             </div>
                             <div className="control-group">
                                 <input
-                                    type="text"
+                                    // type="text"
                                     className="form-control p-4"
                                     id="subject"
                                     placeholder="Subject"

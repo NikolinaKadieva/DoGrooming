@@ -1,0 +1,211 @@
+ 
+  .postDetails {
+    position: relative;
+    display: block;
+    width: 980px;
+    margin: 90px auto;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: all 0.4s;
+  }
+  
+  .postDetails>h1 {
+    color: #fff;
+    font-family: "Agency FB";
+    font-size: 55px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  
+  .info {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-blend-mode: multiply;
+    z-index: 2;
+    border-radius: 10px;
+    background-color: whitesmoke;
+  }
+  
+  .header {
+    position: relative;
+    padding: 25px;
+    height: 40%;
+  }
+  
+  .header>h1 {
+    color: black;
+    margin-top: 5px;
+    font-size: 36px;
+    font-weight: 400;
+  }
+  
+  .header>h4 {
+    color: #555;
+    font-size: 23px;
+    font-weight: 400;
+  }
+  
+  .levels {
+    display: inline-block;
+    margin-top: 15px;
+    color: #555;
+    padding: 7px;
+    border-radius: 5px;
+    background-color: #b4b6ee;
+    border: 1px solid rgba(218, 181, 181, 0.829);
+  }
+  
+  .type {
+    display: inline-block;
+    color: #959595;
+    font-size: 19px;
+    margin-left: 10px;
+  }
+  
+  .postImg {
+    position: relative;
+    float: left;
+    margin-left: 15px;
+    margin-right: 22px;
+    height: 220px;
+    border-radius: 6%;
+    box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .info>.text {
+    margin-top: 30px;
+    padding: 60px;
+    height: 50%;
+  }
+  
+  .text {
+    font-size: 25px;
+    color: #545454;
+  }
+  
+  .buttons {
+    height: 10%;
+    text-align: right;
+    padding-right: 15px;
+    padding-bottom: 40px;
+  }
+  
+  .button {
+    height: 15%;
+    background-color: #54557b;
+    padding: 14px;
+    margin-top: auto;
+    font-size: 21px;
+    color: rgb(255, 255, 255);
+  }
+  
+  .button:hover {
+    background-color: #ed6436;
+    color: white;
+  }
+  
+  .create-comment>.form>textarea {
+    resize: none;
+    width: 100px;
+    height: 100px;
+    margin-top: 22px;
+    margin-bottom: 28px;
+    padding: 5px;
+  }
+  
+  .detailsComments {
+    display: table-cell;
+  }
+  
+  .create-comment {
+    display: inline-block;
+    margin-top: 60px;
+    position: relative;
+    text-align: center;
+    width: 700px;
+    height: auto;
+    border-radius: 20px;
+    padding: 40px;
+    box-sizing: border-box;
+    background: #ed6436;
+    box-shadow: 0px 0px 32px 0px #32485e, -14px -14px 20px #191c21;
+  }
+  
+  .create-comment>label {
+    color: white;
+    font-size: 28px;
+    text-align: center;
+    font-weight: 700;
+    line-height: normal;
+  }
+  
+  .info>.detailsComments li {
+    width: 400px;
+    display: inline-block;
+    position: static;
+    margin: 20px auto 25px auto;
+    box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.2), 12px 12px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 16px;
+    margin-left: 60px;
+    background: #ed6436;
+    color: white;
+  }
+  
+  .comment p {
+    padding: 16px;
+  }
+  
+  
+  .create-comment>.button:hover {
+    background-color: #41425c;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .submitBtn {
+    margin-top: 30px;
+    background: #778e9c;
+    height: 60px;
+    border-radius: 20px;
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+    font-weight: 900;
+    box-shadow: -6px -6px 6px white;
+    transition: 0.5s;
+  }
+  
+  .submitBtn:hover {
+    color: white;
+    background-color: #8fa9b9;
+  }
+  
+  input[type="text"] {
+    background: #ecf0f3;
+    padding: 30px;
+    padding-left: 20px;
+    height: 50px;
+    margin-top: 10px;
+    font-size: 24px;
+    border-radius: 50px;
+    /* box-shadow: inset 6px 6px 6px #c0c2c5, inset -6px -6px 6px white; */
+  }
+  
+  .textarea-comment {
+    width: 100%;
+    min-width: 20vw;
+    min-height: 7em;
+    border: 2px solid #86a480;
+    border-radius: 0.7em;
+    font-size: 26px;
+    border-bottom-color: #ecf0f3;
+    background-color: #ecf0f3;
+    border-right-color: #ecf0f3;
+    margin-top: 7px;
+    color: black;
+    /* box-shadow: inset 6px 6px 6px #c0c2c5, inset -6px -6px 6px white; */
+  }
+  
