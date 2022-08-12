@@ -29,31 +29,17 @@ export const Header = () => {
                     id="navbarCollapse"
                 >
                     <div className="navbar-nav mr-auto py-0">
-                        <Link to="/" className="nav-item nav-link active">
-                            Home
+                        <Link to="/" className="nav-item nav-link">
+                            Начало
                         </Link>
                         <Link to="/about" className="nav-item nav-link">
-                            About
+                            За нас
                         </Link>
-                        <div className="nav-item dropdown">
-                            <Link
-                                to="/"
-                                className="nav-link dropdown-toggle"
-                                data-toggle="dropdown"
-                            >
-                                Pages
-                            </Link>
-                            <div className="dropdown-menu rounded-0 m-0">
-                                <Link to="/catalog" className="dropdown-item">
-                                    Blog Grid
-                                </Link>
-                                <Link to="/" className="dropdown-item">
-                                    Blog Detail
-                                </Link>
-                            </div>
-                        </div>
+                        <Link to="/catalog" className="nav-item nav-link">
+                            Каталог
+                        </Link>
                         <Link to="contact" className="nav-item nav-link">
-                            Contact
+                            Контакти
                         </Link>
                     </div>
                     {user.email && <span>{user.email}</span>}
@@ -64,7 +50,7 @@ export const Header = () => {
                                 Logout
                             </Link>
                             <Link to="/create" className="btn btn-lg btn-primary px-3 d-none d-lg-block">
-                                Create Post
+                                Създай пост
                             </Link>
                         </>
                         :

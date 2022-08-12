@@ -161,7 +161,7 @@ const Details = () => {
                         }
                     </div>
     
-                    <article className={styles['create-comment']}>
+                    { user.email && <article className={styles['create-comment']}>
                         <label>Add new comment:</label>
                         <form className="form" onSubmit={addCommentHandler}>
                             {/* <input
@@ -189,7 +189,7 @@ const Details = () => {
                                 value="Add Comment"
                             />
                         </form>
-                    </article>
+                    </article>}
                 </section>
             );
         } else {

@@ -64,7 +64,7 @@ export const Contact = () => {
                                     type="submit"
                                     id="sendMessageButton"
                                 >
-                                    Send Message
+                                    Изпрати съобщение
                                 </button>
                             </div>
                         </form>

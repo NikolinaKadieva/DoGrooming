@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./contexts/AuthContext";
 import { PostProvider } from "./contexts/PostContext";
-import PrivateRoute from "./components/common/PrivateRoute";
+import PrivateRoute from "./components/Common/PrivateRoute";
 
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
@@ -19,7 +19,7 @@ import Catalog from "./components/Catalog/Catalog";
 import Details from "./components/Details/Details";
 import EditPost from "./components/EditPost/EditPost";
 import About from "./components/About/About";
-import PostOwner from "./components/common/PostOwner";
+import PostOwner from "./components/Common/PostOwner";
 
 const Register = lazy(() => import("./components/Register/Register"));
 
