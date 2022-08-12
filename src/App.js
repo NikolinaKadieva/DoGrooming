@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./contexts/AuthContext";
 import { PostProvider } from "./contexts/PostContext";
+import PrivateRoute from "./components/common/PrivateRoute";
 
 import { Footer } from "./components/Footer/Footer";
 import { Header } from "./components/Header/Header";
@@ -12,13 +13,13 @@ import { Blog } from "./components/Blog/Blog";
 
 import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
-import { UserProfile } from "./components/UserProfile/UserProfile";
 
 import CreatePost from "./components/CreatePost/CreatePost";
 import Catalog from "./components/Catalog/Catalog";
 import Details from "./components/Details/Details";
 import EditPost from "./components/EditPost/EditPost";
 import About from "./components/About/About";
+import PostOwner from "./components/common/PostOwner";
 
 const Register = lazy(() => import("./components/Register/Register"));
 
@@ -39,11 +40,14 @@ function App() {
                             </Suspense>
                         } />
                         <Route path="/login" element={<Login />} />
-                        <Route path="/logout" element={<Logout />} />
                         <Route path="/contact" element={<Contact />} />
-                        <Route path="/create" element={<CreatePost />} />
-                        <Route path="/posts/:postId/edit" element={<EditPost />} />
-                        <Route path='/profile' element={<UserProfile />} />
+                        <Route path="/create" element={(<PrivateRoute><CreatePost /></PrivateRoute>)} />
+                        <Route element={<PostOwner />}>
+                            <Route path="/posts/:postId/edit" element={<EditPost />} />
+                        </Route>
+                        <Route element={<PrivateRoute />}>
+                            <Route path="/logout" element={<Logout />} />
+                        </Route>
                         <Route path='/catalog' element={<Catalog />} />
                         <Route path='/catalog/:postId' element={<Details />} />
                     </Routes>

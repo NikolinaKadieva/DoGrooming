@@ -8,15 +8,17 @@ export const PostContext = createContext();
 const postReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_POSTS':
-            return action.payload.map(x => ({...x, comments: []}));
+            return action.payload.map(x => ({ ...x, comments: [] }));
         case 'ADD_POST':
             return [...state, action.payload];
         case 'EDIT_POST':
             return state.map(x => x._id === action.postId ? action.payload : x);
         case 'ADD_COMMENT':
-            return state.map(x => x._id === action.postId ? {...x, comments: [...x.comments, action.payload]} : x);
+            return state.map(x => x._id === action.postId ? { ...x, comments: [...x.comments, action.payload] } : x);
         case 'FETCH_POST_DETAILS':
             return state.map(x => x._id === action.postId ? action.payload : x);
+        case 'REMOVE_POST':
+            return state.filter(x => x._id !== action.postId);
         default:
             return state;
     }
@@ -41,7 +43,7 @@ export const PostProvider = ({
 
     const selectPost = (postId) => {
         return posts.find(x => x._id === postId) || {};
-    } 
+    }
 
     const fetchPostDetails = (postId, postDetails) => {
         dispatch({
@@ -86,12 +88,19 @@ export const PostProvider = ({
             payload: postData,
             postId,
         })
+    };
+
+    const postRemove = (postId) => {
+        dispatch({
+            type: 'REMOVE_POST',
+            postId,
+        })
     }
 
     return (
 
 
-        <PostContext.Provider value={{ posts, postAdd, postEdit, addComment, fetchPostDetails, selectPost}}>
+        <PostContext.Provider value={{ posts, postAdd, postEdit, addComment, fetchPostDetails, selectPost, postRemove }}>
             {children}
         </ PostContext.Provider>
     )

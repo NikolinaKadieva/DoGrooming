@@ -22,3 +22,5 @@ export const getAll = async (query) => {
 export const create = (postData) => request.post(baseUrl, postData);
 
 export const edit = (postId, postData) => request.put(`${baseUrl}/${postId}`, postData);
+
+export const remove = (postId) => request.del(`${baseUrl}/${postId}`);
