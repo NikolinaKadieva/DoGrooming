@@ -35,10 +35,6 @@ const Register = () => {
             return;
         }
 
-        console.log(email);
-        console.log(password);
-        console.log(confirmPassword);
-
         if (handleValidation(password, confirmPassword)) {
             authService.register(email, password)
                 .then(authData => {

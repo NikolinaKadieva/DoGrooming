@@ -4,7 +4,7 @@ import { useAuthContext } from "../../contexts/AuthContext";
 export const PostCard = ({
     post
 }) => {
-
+    console.log(post);
     const {user} = useAuthContext();
     
     return (
