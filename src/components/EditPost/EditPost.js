@@ -1,24 +1,17 @@
-import styles from "./EditPost.module.css"
+import styles from "./EditPost.module.css";
 
-import * as postService from '../../services/postService';
-
-import { PostContext } from "../../contexts/PostContext";
+import { useState, useContext, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 
-
-import { useState, useContext, useEffect, useRef } from 'react';
-
-
-import Modal from '../Modal/Modal';
+import * as postService from '../../services/postService';
+import { PostContext } from "../../contexts/PostContext";
 
 const EditPost = ({ setIsBeingEdited }) => {
     const [currentPost, setCurrentPost] = useState({});
     const { postEdit } = useContext(PostContext);
     const { postId } = useParams();
     const navigate = useNavigate();
-    const submitEl = useRef(null);
-    const [submit, setSubmit] = useState(false);
-    const [modal, setModal] = useState(false);
+    
     useEffect(() => {
         postService.getOne(postId)
             .then(postData => {
@@ -26,18 +19,6 @@ const EditPost = ({ setIsBeingEdited }) => {
             })
     }, []);
 
-
-    console.log(currentPost);
-    console.log(postId);
-    console.log(setIsBeingEdited);
-    
-
-
-    useEffect(() => {
-        if (submit) {
-            submitEl.current.click();
-        }
-    }, [submit]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -57,10 +38,6 @@ const EditPost = ({ setIsBeingEdited }) => {
 
     };
 
-    const toggleModal = () => {
-        setModal(!modal);
-    };
-
     const cancelHandler = () => {
         setIsBeingEdited((oldIsBeingEdit) => !oldIsBeingEdit);
     };
@@ -78,41 +55,20 @@ const EditPost = ({ setIsBeingEdited }) => {
                     <input type="text" id="imageUrl" name="imageUrl" defaultValue={currentPost.imageUrl} />
                     <label htmlFor="content">Съдържание:</label>
                     <textarea name="content" id="content" defaultValue={currentPost.content} />
-                    <input className={styles['submitBtn']} type="submit" defaultValue="Edit Post" />
 
-                    <div className='row justify-content-md-center'>
-                        <div className='col-sm-3 profile-control'>
-                            <button
-                                style={{ padding: '8px 20px' }}
-                                type='button'
-                                onClick={cancelHandler}
-                                className='btn btn-outline-danger ms-1 '>
-                                Cancel
-                            </button>
-                        </div>
-                        <div className='col-sm-3'>
-                            <button
-                                type='submit'
-                                // onClick={toggleModal}
-                                style={{ padding: '8px 20px' }}
-                                className='btn btn-outline-primary ms-1'>
-                                Save Changes
-                            </button>
-                            <button
-                                ref={submitEl}
-                                type='submit'
-                                style={{ display: 'none' }}
-                                aria-hidden='true'></button>
-                            <Modal
-                                show={modal}
-                                close={toggleModal}
-                                title='Are you sure you want to save these changes?'
-                                message='Save changes message'
-                                buttonText='Save Changes'
-                                type='success'
-                                callback={() => setSubmit((oldSubmit) => !oldSubmit)}
-                            />
-                        </div>
+                    <div className='edit-delete'>
+                        <button
+                            type='submit'
+                            className='mr-2 btn btn-outline-success ms-1 '
+                        >
+                            Save
+                        </button>
+                        <button
+                            onClick={cancelHandler}
+                            type='button'
+                            className='btn btn-outline-danger ms-1 '>
+                            Cancel
+                        </button>
                     </div>
                 </div>
             </form>

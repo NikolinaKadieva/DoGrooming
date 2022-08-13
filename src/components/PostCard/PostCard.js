@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 export const PostCard = ({
     post
 }) => {
+
+    const {user} = useAuthContext();
+    
     return (
         <div className="col-lg-4 mb-4">
             <div className="card border-0 mb-2">
@@ -11,20 +15,20 @@ export const PostCard = ({
                     <h4 className="card-title text-truncate">{post.title}</h4>
                     <div className="d-flex mb-3">
                         <small className="mr-2">
-                            <i className="fa fa-user text-muted" /> {post._ownerId}
+                            <i className="fa fa-user text-muted" /> {user.email}
                         </small>
                         <small className="mr-2">
                             <i className="fa fa-folder text-muted" /> {post.category}
                         </small>
                         <small className="mr-2">
-                            <i className="fa fa-comments text-muted" /> {post.comments ? post.comments.length : -''}
+                            <i className="fa fa-comments text-muted" /> {post.comments ? post.comments.length : '-'}
                         </small>
                     </div>
                     <p>
                         {post.content.substring(0, 100)}...
                     </p>
                     <Link className="font-weight-bold" to={`/catalog/${post._id}`}>
-                        Read More
+                        Прочети повече
                     </Link>
                 </div>
             </div>

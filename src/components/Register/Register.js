@@ -5,30 +5,31 @@ import { useNavigate } from "react-router-dom";
 
 import * as authService from "../../services/authService";
 import { AuthContext } from "../../contexts/AuthContext";
+import { types, NotificationContext } from '../../contexts/NotificationContext';
 
 import Modal from '../Modal/Modal';
 import TermsOfService from './TermsOfService';
 
 const Register = () => {
     const { userLogin } = useContext(AuthContext);
+   
+    const [isValid, setIsValid] = useState({ fields: {}, errors: {} });
+    const { showNotification } = useContext(NotificationContext);
+    const [modal, setModal] = useState(false);
     const navigate = useNavigate();
-  const [modal, setModal] = useState(false);
-
 
     const toggleModal = () => {
         setModal(!modal);
-      };
+    };
 
     const onSubmit = (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.target);
 
-        // const firstName = formData.get('firstName');
-        // const lastName = formData.get('lastName');
         const email = formData.get('email');
         const password = formData.get('password');
-        const confirmPassword = formData.get('rePassword');
+        const confirmPassword = formData.get('confirmPassword');
 
         if (password !== confirmPassword) {
             return;
@@ -38,13 +39,98 @@ const Register = () => {
         console.log(password);
         console.log(confirmPassword);
 
+        if (handleValidation(password, confirmPassword)) {
+            authService.register(email, password)
+                .then(authData => {
+                    showNotification('Account created successfully!', types.success);
+                    userLogin(authData);
+                    navigate('/');
+                })
+                .catch((error) => {
+                    return showNotification(error.message, types.error);
+                });
+        }
+    };
 
-        authService.register(email, password)
-            .then(authData => {
-                userLogin(authData);
-                navigate('/');
+    const handleValidation = (password, confirmPassword) => {
+        const fields = isValid.fields;
+        const errors = {};
+        let formIsValid = true;
+
+        if (!fields['email']) {
+            formIsValid = false;
+            errors['email'] = 'E-mail address is required!';
+        }
+
+        if (!fields['password']) {
+            formIsValid = false;
+            errors['password'] = 'Password is required!';
+        }
+
+        if (!fields['confirmPassword']) {
+            formIsValid = false;
+            errors['confirmPassword'] = 'Confirm Password field is required!';
+        }
+
+        if (!fields['terms']) {
+            formIsValid = false;
+            errors['terms'] =
+                'You need to agree with the Terms & Conditions to register!';
+        }
+
+        var passWordRegExp = new RegExp(
+            /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))/
+        );
+
+        if (password.length < 8) {
+            formIsValid = false;
+            errors['password'] = 'Password should be at least 8 symbols long!';
+        }
+
+        if (!passWordRegExp.test(password)) {
+            formIsValid = false;
+            errors['password'] =
+                'Password should contain at least 1: Lowercase letter, Uppercase letter, Numeric character, Special character';
+        }
+
+        if (password !== confirmPassword) {
+            formIsValid = false;
+            errors['confirmPassword'] = 'Password and Confirm Password should match!';
+        }
+
+        setIsValid((oldIsValid) => {
+            return { ...oldIsValid, ...{ errors: errors } };
+        });
+
+        return formIsValid;
+    };
+
+    const onEmailChangeHandler = (e) => {
+        const emailRegExp = new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+        let errors = {};
+
+        if (!emailRegExp.test(e.target.value)) {
+            errors['email'] = 'Please enter a valid e-mail address!';
+            setIsValid((oldIsValid) => {
+                return { ...oldIsValid, ...{ errors: errors } };
             });
-    }
+        } else {
+            const fields = isValid.fields;
+            fields[e.target.name] = e.target.name;
+            errors['email'] = null;
+            setIsValid((oldIsValid) => {
+                return { ...oldIsValid, ...{ errors: errors }, ...fields };
+            });
+        }
+    };
+
+    const onChangeHandler = (e) => {
+        const fields = isValid.fields;
+        fields[e.target.name] = e.target.name;
+        setIsValid((oldIsValid) => {
+            return { ...oldIsValid, ...fields };
+        });
+    };
 
     return (
         <div className='container register-container wow fadeInLeft'>
@@ -62,34 +148,7 @@ const Register = () => {
                                         method='POST'
                                         className='mx-1 mx-md-4'
                                         onSubmit={onSubmit}>
-                                        {/* <div className='d-flex flex-row align-items-center mb-4'>
-                                            <i className='fas fa-user fa-lg me-3 fa-fw'></i>
-                                            <div className='form-outline flex-fill mb-0'>
-                                                <label className='form-label ml-3' htmlFor='firstName'>
-                                                    First Name
-                                                </label>
-                                                <input
-                                                    type='text'
-                                                    id='firstName'
-                                                    name='firstName'
 
-                                                />
-
-                                            </div>
-                                        </div> */}
-                                        {/* <div className='d-flex flex-row align-items-center mb-4'>
-                                            <i className='fas fa-user fa-lg me-3 fa-fw'></i>
-                                            <div className='form-outline flex-fill mb-0'>
-                                                <label className='form-label ml-3' htmlFor='lastName'>
-                                                    Last Name
-                                                </label>
-                                                <input
-                                                    type='text'
-                                                    id='lastName'
-                                                    name='lastName'
-                                                />
-                                            </div>
-                                        </div> */}
 
                                         <div className='d-flex flex-row align-items-center mb-4'>
                                             <i className='fas fa-envelope fa-lg me-3 fa-fw'></i>
@@ -101,7 +160,20 @@ const Register = () => {
                                                     type='email'
                                                     id='email'
                                                     name='email'
+                                                    onChange={onEmailChangeHandler}
+                                                    className={
+                                                        isValid.errors['email']
+                                                            ? 'form-control notValid'
+                                                            : 'form-control'
+                                                    }
                                                 />
+                                                {isValid.errors['email'] && (
+                                                    <p
+                                                        className='ml-3 error-message'
+                                                        style={{ color: 'red' }}>
+                                                        {isValid.errors['email']}
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
 
@@ -115,36 +187,64 @@ const Register = () => {
                                                     type='password'
                                                     id='password'
                                                     name='password'
+                                                    onChange={onChangeHandler}
+                                                    className={
+                                                        isValid.errors['password']
+                                                            ? 'form-control notValid'
+                                                            : 'form-control'
+                                                    }
                                                 />
+                                                {isValid.errors['password'] && (
+                                                    <p
+                                                        className='ml-3 error-message'
+                                                        style={{ color: 'red' }}>
+                                                        {isValid.errors['password']}
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
 
                                         <div className='d-flex flex-row align-items-center mb-4'>
                                             <i className='fas fa-key fa-lg me-3 fa-fw'></i>
                                             <div className='form-outline flex-fill mb-0'>
-                                                <label className='form-label ml-3' htmlFor='rePassword'>
+                                                <label className='form-label ml-3' htmlFor='confirmPassword'>
                                                     Repeat your password
                                                 </label>
                                                 <input
                                                     type='password'
-                                                    id='rePassword'
-                                                    name='rePassword'
+                                                    id='confirmPassword'
+                                                    name='confirmPassword'
+                                                    onChange={onChangeHandler}
+                                                    className={
+                                                        isValid.errors['confirmPassword']
+                                                            ? 'form-control notValid'
+                                                            : 'form-control'
+                                                    }
                                                 />
+                                                {isValid.errors['confirmPassword'] && (
+                                                    <p
+                                                        className='ml-3 error-message'
+                                                        style={{ color: 'red' }}>
+                                                        {isValid.errors['confirmPassword']}
+                                                    </p>
+                                                )}
                                             </div>
                                         </div>
 
-                                        <div className='form-check d-flex justify-content-left mb-5'>
+                                        <div className='form-check justify-content-left mb-5'>
                                             <input
                                                 className='form-check-input me-2'
                                                 type='checkbox'
                                                 value={true}
                                                 id='terms'
                                                 name='terms'
+                                                onChange={onChangeHandler}
+
                                             />
-                                            <label className='form-check-label' htmlFor='terms'>
+                                            <span className='form-check-label' htmlFor='terms'>
                                                 I agree all statements in&nbsp;
-                                            </label>
-                                            <span onClick={toggleModal} className={styles['terms-trigger']}>
+                                            </span>
+                                            <span onClick={toggleModal} className={styles['termsTrigger']}>
                                                 Terms of service
                                             </span>
                                             <Modal
@@ -156,6 +256,13 @@ const Register = () => {
                                                 footerless={true}>
                                                 <TermsOfService />
                                             </Modal>
+                                            {isValid.errors['terms'] && (
+                                                <p
+                                                    className='ml-3 error-message'
+                                                    style={{ color: 'red' }}>
+                                                    {isValid.errors['terms']}
+                                                </p>
+                                            )}
                                         </div>
 
                                         <div className='d-flex justify-content-center mx-4 mb-3 mb-lg-4'>

@@ -2051,8 +2051,17 @@ textarea.form-control {
   margin-bottom: 0;
 }
 
-.form-check-inline {
+/* .form-check-inline {
   display: inline-flex;
+  align-items: center;
+  padding-left: 0;
+  margin-right: 0.75rem;
+} */
+
+.form-check-inline {
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-align: center;
   align-items: center;
   padding-left: 0;
   margin-right: 0.75rem;
